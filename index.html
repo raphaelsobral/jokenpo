@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+    <title>Jokenpo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 100dvh;
+            background-color: #fac7bad4;
+        }
+
+        form {
+            margin: 20px 0;
+        }
+
+        input {
+            opacity: 0;
+        }
+
+        label {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #849DE8;
+            box-shadow: 0 3px 1px  #6f87cf;
+            transition-duration: 0.2s;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 1.2em;
+        }
+
+        label:hover {
+            background-color: #caf099;
+        }
+
+        input:checked + label{
+            padding-top: 9px;
+            box-shadow: none;
+            background-color: #bce784;
+        }
+
+        #result {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            font-size: 1.3em;
+        }
+
+        .emoji {
+            font-size: 1.4em;
+        }
+
+        .on {
+            padding: 10px;
+            background-color: aliceblue;
+            border-radius: 4px;
+        }
+
+        .lose, .win, .tie {
+            padding: 5px;
+            border-radius: 0 0 2px 2px;
+        }
+
+        .win {
+            background-color: rgba(172, 255, 47, 0.494);
+        }
+
+        .lose {
+            background-color: rgba(255, 0, 0, 0.484);
+        }
+
+        .tie {
+            background-color: rgba(255, 255, 0, 0.514);
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: #bce784;
+            border: none;
+            width: 80px;
+            font-weight: 700;
+            border-radius: 4px;
+            transition-duration: 0.2s;
+            font-size: 1.2em;
+        }
+
+        button:hover {
+            background-color: #a1ca6a;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Escolha uma opção.</h1>
+        <form>
+            <input type="radio" name="jokenpo" id="pedra" value="pedra">
+            <label for="pedra">Pedra <span class="emoji">✊</span></label>
+            <input type="radio" name="jokenpo" id="papel" value="papel">
+            <label for="papel">Papel <span class="emoji">✋</span></label>
+            <input type="radio" name="jokenpo" id="tesoura" value="tesoura">
+            <label for="tesoura">Tesoura <span class="emoji">✌️</span></label>
+        </form>
+        <div id="result"></div>
+
+        <div><button type="submit" id="play">JOGAR</button></div>
+    </main>
+
+    <script>
+        const options = ['pedra', 'papel', 'tesoura'];
+        const playBtn = document.getElementById('play');
+        const result = document.getElementById('result');
+        const radios = document.getElementsByName('jokenpo');
+
+        function pickOne(arr){
+            return arr[Math.floor(Math.random() * options.length)];
+        }
+
+        playBtn.addEventListener('click', (e)=> {
+            e.preventDefault();
+            let chosen = null;
+            const answer = pickOne(options);
+
+            radios.forEach((radio)=> {
+                if(radio.checked){
+                    return chosen = radio.value;
+                }
+            })
+            
+            if (!chosen){
+                result.innerHTML = `<p>Por favor, escolha uma opção</p>`
+            } else {
+                result.classList.add('on');
+                if(answer === chosen){
+                    result.innerHTML = `<p><strong>Máquina:</strong> ${answer} x <strong>Você:</strong> ${chosen}</p> <br> <p class="tie">EMPATE</p>`;
+                } else if(answer === 'pedra' && chosen === 'tesoura'){
+                    result.innerHTML = `<p><strong>Máquina:</strong> ${answer} x <strong>Você:</strong> ${chosen}</p> <br> <p class="lose"><strong>Máquina</strong> ganhou</p>`;
+                } else if(answer === 'tesoura' && chosen === 'papel'){
+                    result.innerHTML = `<p><strong>Máquina:</strong> ${answer} x <strong>Você:</strong> ${chosen}</p> <br> <p class="lose"><strong>Máquina</strong> ganhou</p>`;
+                } else if (answer === 'papel' && chosen === 'pedra'){
+                    result.innerHTML = `<p><strong>Máquina:</strong> ${answer} x <strong>Você:</strong> ${chosen}</p> <br> <p class="lose"><strong>Máquina</strong> ganhou</p>`;
+                } else {
+                    result.innerHTML = `<p><strong>Máquina:</strong> ${answer} x <strong>Você:</strong> ${chosen}</p> <br> <p class="win"><strong>Você</strong> ganhou</p>`;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -100,7 +100,27 @@
         }
 
         button:hover {
-            background-color: #a1ca6a;
+            animation: treme;
+            animation-duration: .3s;
+            background-color: #a8fc3b;
+            
+        }
+
+        @keyframes treme {
+            10% {
+                transform: rotate(5deg);
+            }
+
+            50% {
+                transform: rotate(-5deg);
+            }
+        }
+
+        @media screen and (max-width: 415px) {
+            form {
+                display: flex;
+                flex-direction: column;
+            }
         }
     </style>
 </head>
